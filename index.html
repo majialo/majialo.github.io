@@ -113,23 +113,36 @@
             </div>
 
             <script>
-                var oInp = document.getElementById('inp');
-                var oBtn = document.getElementById('btn');
-            
-                oBtn.onclick = function () {
-                    Search();
-                }
-            
-                document.onkeydown = function () {
-                    if (event.keyCode == 13) {
-                        Search();
+                const searchInput = document.getElementById('inp');
+                const searchButton = document.getElementById('btn');
+
+                function triggerSearch() {
+                    const query = searchInput.value.trim();
+
+                    if (!query) {
+                        if (typeof iziToast !== 'undefined') {
+                            iziToast.info({
+                                title: '提示',
+                                message: '请输入搜索内容',
+                                timeout: 2000
+                            });
+                        }
+                        searchInput.focus();
+                        return;
                     }
+
+                    const url = `https://cn.bing.com/search?q=${encodeURIComponent(query)}`;
+                    window.open(url, '_self');
                 }
-            
-                function Search() {
-                    var url = 'https://cn.bing.com/search?q=' + oInp.value;
-                    window.open(url,'_self');
-                }
+
+                searchButton.addEventListener('click', triggerSearch);
+
+                searchInput.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        event.preventDefault();
+                        triggerSearch();
+                    }
+                });
             </script>
 
             <script>
@@ -571,3 +584,4 @@
 </body>
 
 </html>
+
