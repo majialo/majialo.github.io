@@ -18,14 +18,16 @@
     <meta name="author" content="Peter">
     <title>Peter|MyIndex</title>
     <!-- jQuery -->
-    <script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-y/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"
+        onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js';"></script>
     <!-- HarmonyOS Sans -->
     <!-- 本站 CDN 已开启防盗链，非本站域名不可访问，请更改链接为下方内容，否则自定义字体将失效 -->
     <!-- https://s1.hdslb.com/bfs/static/jinkela/long/font/regular.css -->
     <link rel="stylesheet" href="https://s1.hdslb.com/bfs/static/jinkela/long/font/regular.css" />
     <!-- 引入样式 -->
     <link rel="stylesheet" type="text/css"
-        href="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-y/bootstrap/5.1.0/css/bootstrap.min.css">
+        href="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css"
+        onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css';">
     <link rel="stylesheet" type="text/css" href="./css/style.css">
     <link rel="stylesheet" type="text/css" href="./css/mobile.css">
     <link rel="stylesheet" type="text/css" href="./css/loading.css">
@@ -33,9 +35,11 @@
     <link rel="icon" href="./favicon.ico">
     <link rel="apple-touch-icon" href="./img/icon/apple-touch-icon.png">
     <!-- Izitoast -->
-    <link rel="stylesheet" href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-y/izitoast/1.4.0/css/iziToast.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/css/iziToast.min.css"
+        onerror="this.onerror=null;this.href='https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css';">
     <script type="text/javascript"
-        src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-y/izitoast/1.4.0/js/iziToast.min.js">
+        src="https://cdn.bootcdn.net/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"
+        onerror="this.onerror=null;this.src='https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js';">
     </script>
     <!-- Search Box -->
     <!--
@@ -45,10 +49,12 @@
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.1.2/css/all.min.css">
     <!-- Aplayer -->
-    <link rel="stylesheet" href="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-y/aplayer/1.10.1/APlayer.min.css"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.css"
+        onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css';"
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-y/aplayer/1.10.1/APlayer.min.js" crossorigin="anonymous"
-        referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.js"
+        onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js';"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- <script src="./js/Meting.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
     <!-- IE Out -->
     <script>
@@ -61,7 +67,7 @@
     <script src="./js/51LA.js"></script>
 </head>
 
-<body>
+<body id="page">
     <!--加载动画-->
     <div id="loading-box">
         <div class="loading-left-bg"></div>
@@ -82,13 +88,17 @@
         <!-- 背景图片 -->
         <style type="text/css">
             body{
-              background: url("img/background1.webp") no-repeat center center fixed;
+              background: url("img/background.webp") no-repeat center center fixed;
                           /*兼容浏览器版本*/
                           -webkit-background-size: cover;
-                          -o-background-size: cover;                
+                          -o-background-size: cover;
                           background-size: cover;
             } /*背景图*/
-       
+
+            body.bg-alt{
+              background-image: url("img/background1.webp");
+            }
+
             .test {
               margin-top: 100px;
             }
@@ -146,26 +156,41 @@
             </script>
 
             <script>
-                $(".search-btn").click(function(){
-                    $(this).css("display","none");
-                    $(".search-data").fadeIn(500);
-                    $(".close-btn").fadeIn(500);
-                    $(".search-data .line").addClass("active");
-                    setTimeout(function(){
-                        $("input").focus();
-                        $(".search-data label").fadeIn(500);
-                        $(".search-data span").fadeIn(500);
-                    }, 800);
-                });
-                $(".close-btn").click(function(){
-                    $(".search-btn").fadeIn(800);
-                    $(".search-data").fadeOut(500);
-                    $(".close-btn").fadeOut(500);
-                    $(".search-data .line").removeClass("active");
-                    $("input").val("");
-                    $(".search-data label").fadeOut(500);
-                    $(".search-data span").fadeOut(500);
-                });
+                (function () {
+                    function bindSearchUi() {
+                        if (!window.jQuery) {
+                            return;
+                        }
+                        var $ = window.jQuery;
+                        $(".search-btn").click(function () {
+                            $(this).css("display", "none");
+                            $(".search-data").fadeIn(500);
+                            $(".close-btn").fadeIn(500);
+                            $(".search-data .line").addClass("active");
+                            setTimeout(function () {
+                                $("input").focus();
+                                $(".search-data label").fadeIn(500);
+                                $(".search-data span").fadeIn(500);
+                            }, 800);
+                        });
+                        $(".close-btn").click(function () {
+                            $(".search-btn").fadeIn(800);
+                            $(".search-data").fadeOut(500);
+                            $(".close-btn").fadeOut(500);
+                            $(".search-data .line").removeClass("active");
+                            $("input").val("");
+                            $(".search-data label").fadeOut(500);
+                            $(".search-data span").fadeOut(500);
+                        });
+                    }
+
+                    if (document.readyState === "loading") {
+                        document.addEventListener("DOMContentLoaded", bindSearchUi);
+                    } else {
+                        bindSearchUi();
+                    }
+                    window.addEventListener("load", bindSearchUi);
+                })();
             </script>
             <div class="container" id="container">
                 <div class="row" id="row">
@@ -185,15 +210,33 @@
                                 <div class="des" id="des">
                                     <i class="fa-solid fa-quote-left"></i>
                                     <div class="des-title">
-                                        <span id="change">Hello&nbsp;World&nbsp;!</span><br /><span id="change1">一个不正经的中学生  |  +V: hsbupt</span>
+                                        <span id="change">Hello&nbsp;World&nbsp;!</span><br /><span id="change1">一个不正经的中学生</span>
                                     </div>
                                     <i class="fa-solid fa-quote-right"></i>
                                 </div>
                             </div>
                             <div class="social" id="social">
-                                <a href=".\language.html"target="_blank">
-                                    <i class="fa-solid fa-globe"></i>
-                                    <a id="link-text">language</a>
+                                <a href="./language.html" class="link" id="language" style="margin-left: 4px"
+                                    target="_blank">
+                                    <i class="fa-solid fa-earth-americas"></i>
+                                </a>
+                                <button type="button" class="link bg-toggle" id="bg-toggle" onclick="toggleBackground()" aria-label="切换背景">
+                                    <i class="fa-solid fa-image"></i>
+                                </button>
+                                <button type="button" class="link blur-toggle" id="blur-toggle" onclick="toggleBlurLevel()" aria-label="模糊强度">
+                                    <i class="fa-solid fa-droplet"></i>
+                                </button>
+                                <a href=" " class="link" id="email">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </a>
+                                <a href=" " class="link" id="bilibili"
+                                    target="_blank">
+                                    <i class="fa-brands fa-bilibili"></i>
+                                </a>
+                                <a href=" " class="link" id="telegram" target="_blank">
+                                    <i class="fa-brands fa-telegram"></i>
+                                </a>
+                                <span id="link-text">一些简单的设置 : )</span>
                             </div>
                         </div>
                     </div>
@@ -383,25 +426,25 @@
                     <div class="row">
                         <div class="col">
                             <a href="https://www.cupfox.app/" target="_blank">
-                                <div class="link-card cards">
-				    <i id="link-icon-1" class="fa-solid fa-film"></i>
-                                    <span class="link-name">. CupFox</span>
+                                <div class="link-card-more cards">
+				                    <i id="link-icon-1" class="fa-solid fa-film"></i>
+                                    <span class="link-name">CupFox</span>
                                 </div>
                             </a>
                         </div>
                         <div class="col 2">
                             <a href="https://hsbupt.github.io/" target="_blank">
-                                <div class="link-card cards">
-                    <i id="link-icon-2" class="fa-solid fa-flask"></i>
-                                    <span class="link-name">. 致敬</span>
+                                <div class="link-card-more cards">
+                                    <i id="link-icon-2" class="fa-solid fa-flask"></i>
+                                    <span class="link-name">致敬</span>
                                 </div>
                             </a>
                         </div>
                         <div class="col">
-                            <a href="https://majialo.github.io/rubbish/" target="_blank">
-                                <div class="link-card cards">
-				    <i id="link-icon-3" class="fa-solid fa-list"></i>
-                                    <span class="link-name">. rubbish杂志</span>
+                            <a href="https://www.baidu.com" target="_blank">
+                                <div class="link-card-more cards">
+				                    <i id="link-icon-3" class="fa-solid fa-list"></i>
+                                    <span class="link-name">百度</span>
                                 </div>
                             </a>
                         </div>
@@ -409,25 +452,25 @@
                     <div class="row" style="margin-top: 1.5rem;">
                         <div class="col">
                             <a href=".\index 1.html">
-                                <div class="link-card cards">
-				    <i id="link-icon-4" class="fa-solid fa-desktop"></i>
-                                    <span class="link-name">. 更换壁纸</span>
+                                <div class="link-card-more cards">
+				                    <i id="link-icon-4" class="fa-solid fa-desktop"></i>
+                                    <span class="link-name">更换壁纸</span>
                                 </div>
                             </a>
                         </div>
                         <div class="col 2">
                             <a href="https://ys-api.mihoyo.com/event/download_porter/link/ys_cn/official/pc_backup53" target="_blank">
-                                <div class="link-card cards">
-				    <i id="link-icon-5" class="fa-solid fa-question"></i>
-                                    <span class="link-name">. 待添加</span>
+                                <div class="link-card-more cards">
+				                    <i id="link-icon-5" class="fa-solid fa-question"></i>
+                                    <span class="link-name">待添加</span>
                                 </div>
                             </a>
                         </div>
                         <div class="col">
                             <a id="openmore">
-                                <div class="link-card cards">
-				    <i id="link-icon-6" class="fa-solid fa-globe"></i>
-                                    <span class="link-name">. 更多</span>
+                                <div class="link-card-more cards">
+				                    <i id="link-icon-6" class="fa-solid fa-globe"></i>
+                                    <span class="link-name">更多</span>
                                 </div>
                             </a>
                         </div>
@@ -561,11 +604,32 @@
             <div id="lrc"></div>
         </footer>
     </section>
+    <script>
+        (function () {
+            function revealContent() {
+                var section = document.getElementById("section");
+                if (section) {
+                    section.style.transform = "scale(1)";
+                    section.style.opacity = "1";
+                    section.style.filter = "blur(0px)";
+                }
+            }
+            function hideLoading() {
+                var loadingBox = document.getElementById("loading-box");
+                if (loadingBox) {
+                    loadingBox.classList.add("loaded");
+                }
+                revealContent();
+            }
+            window.addEventListener("load", hideLoading);
+            setTimeout(hideLoading, 8000);
+        })();
+    </script>
     <!-- sw.js -->
     <script>
         if ("serviceWorker" in navigator) {
             window.addEventListener("load", function () {
-                navigator.serviceWorker.register("sw.js");
+                navigator.serviceWorker.register("sw.js?v=20260205");
             });
         }
     </script>
@@ -579,9 +643,9 @@
     <script type="text/javascript" src="./js/set.js"></script>
     <script type="text/javascript" src="./js/time.js"></script>
     <script type="text/javascript"
-        src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-y/bootstrap/5.1.0/js/bootstrap.min.js">
+        src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.1.0/js/bootstrap.min.js"
+        onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js';">
     </script>
 </body>
 
 </html>
-

@@ -206,7 +206,7 @@
     .munu-button {
         padding: 5px 20px;
         background: rgb(0 0 0 / 20%);
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(var(--glass-blur, 10px));
         border-radius: 6px;
         font-size: 1.25rem;
         transition: 0.5s;

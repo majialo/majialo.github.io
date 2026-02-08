@@ -30,6 +30,89 @@ const element2 = document.getElementById("g-pointer-2");
 const halfAlementWidth = element.offsetWidth / 2;
 const halfAlementWidth2 = element2.offsetWidth / 2;
 
+function toggleBackground() {
+  const page = document.getElementById("page");
+  if (!page) {
+    return;
+  }
+  const current =
+    page.style.backgroundImage || window.getComputedStyle(page).backgroundImage;
+  const next = current && current.includes("background1.webp")
+    ? "./img/background.webp"
+    : "./img/background1.webp";
+  page.style.backgroundImage = `url("${next}")`;
+}
+
+const BLUR_LEVELS = [
+  { base: "4px", soft: "2px", strong: "8px" },
+  { base: "10px", soft: "5px", strong: "20px" },
+  { base: "16px", soft: "8px", strong: "28px" },
+];
+const BLUR_LABELS = ["低", "中", "高"];
+
+function applyBlurLevel(index, notify) {
+  const root = document.documentElement;
+  const target = document.body || root;
+  if (!target) {
+    return;
+  }
+  const safeIndex = Math.max(0, Math.min(index, BLUR_LEVELS.length - 1));
+  const level = BLUR_LEVELS[safeIndex] || BLUR_LEVELS[1];
+  target.style.setProperty("--glass-blur", level.base);
+  target.style.setProperty("--glass-blur-soft", level.soft);
+  target.style.setProperty("--glass-blur-strong", level.strong);
+  target.dataset.blurLevel = String(safeIndex);
+  if (root && root !== target) {
+    root.style.setProperty("--glass-blur", level.base);
+    root.style.setProperty("--glass-blur-soft", level.soft);
+    root.style.setProperty("--glass-blur-strong", level.strong);
+    root.dataset.blurLevel = String(safeIndex);
+  }
+  try {
+    localStorage.setItem("blurLevel", String(safeIndex));
+  } catch (e) {}
+
+  if (notify) {
+    const label = BLUR_LABELS[safeIndex] || "中";
+    const linkText = document.getElementById("link-text");
+    if (linkText) {
+      linkText.textContent = `模糊: ${label}`;
+      linkText.style.display = "block";
+      clearTimeout(window.__blurHintTimer);
+      window.__blurHintTimer = setTimeout(() => {
+        linkText.style.display = "";
+      }, 1400);
+    }
+    if (typeof iziToast !== "undefined") {
+      iziToast.show({
+        timeout: 1200,
+        icon: "fa-solid fa-droplet",
+        message: `模糊强度：${label}`,
+      });
+    }
+  }
+}
+
+function getSavedBlurLevel() {
+  try {
+    const saved = parseInt(localStorage.getItem("blurLevel") || "1", 10);
+    if (Number.isNaN(saved)) {
+      return 1;
+    }
+    return Math.max(0, Math.min(saved, BLUR_LEVELS.length - 1));
+  } catch (e) {
+    return 1;
+  }
+}
+
+function toggleBlurLevel() {
+  const current = getSavedBlurLevel();
+  const next = (current + 1) % BLUR_LEVELS.length;
+  applyBlurLevel(next, true);
+}
+
+applyBlurLevel(getSavedBlurLevel(), false);
+
 function setPosition(x, y) {
   element2.style.transform = `translate(${x - halfAlementWidth2 + 1}px, ${
     y - halfAlementWidth2 + 1
@@ -283,41 +366,50 @@ $("#social")
     });
   });
 
-$("#github")
+$("#language")
   .mouseover(function () {
-    $("#link-text").html("去 Github 看看");
+    $("#link-text").html("language");
   })
   .mouseout(function () {
-    $("#link-text").html("通过这里联系我");
+    $("#link-text").html("一些简单的设置 : )");
   });
-$("#qq")
+$("#bg-toggle")
   .mouseover(function () {
-    $("#link-text").html("有什么事吗");
+    $("#link-text").html("切换背景");
   })
   .mouseout(function () {
-    $("#link-text").html("通过这里联系我");
+    $("#link-text").html("一些简单的设置 : )");
+  });
+$("#blur-toggle")
+  .mouseover(function () {
+    $("#link-text").html("模糊强度");
+  })
+  .mouseout(function () {
+    $("#link-text").html("一些简单的设置 : )");
   });
 $("#email")
   .mouseover(function () {
     $("#link-text").html("来封 Email");
   })
   .mouseout(function () {
-    $("#link-text").html("通过这里联系我");
+    $("#link-text").html("一些简单的设置 : )");
   });
 $("#bilibili")
   .mouseover(function () {
     $("#link-text").html("来 B 站看看 ~");
   })
   .mouseout(function () {
-    $("#link-text").html("通过这里联系我");
+    $("#link-text").html("一些简单的设置 : )");
   });
 $("#telegram")
   .mouseover(function () {
     $("#link-text").html("你懂的 ~");
   })
   .mouseout(function () {
-    $("#link-text").html("通过这里联系我");
+    $("#link-text").html("一些简单的设置 : )");
   });
+
+
 
 //自动变灰
 let myDate = new Date();
@@ -359,7 +451,7 @@ $("#switchmore").on("click", function () {
   } else {
     $("#container").attr("class", "container");
     $("#change").html("Hello&nbsp;World&nbsp;!");
-    $("#change1").html("一个不正经的Up");
+    $("#change1").html("一个不正经的中学生");
   }
 });
 
@@ -408,7 +500,7 @@ window.addEventListener("load", function () {
       //移动端隐藏更多页面
       $("#container").attr("class", "container");
       $("#change").html("Hello&nbsp;World&nbsp;!");
-      $("#change1").html("一个不正经的Up");
+      $("#change1").html("一个不正经的中学生");
 
       //移动端隐藏弹窗页面
       $("#box").css("display", "none");
@@ -469,12 +561,12 @@ let title2 = `
 |_   _|  \\/  |/ ____\\ \\   / /\\ \\   / /
   | | | \\  / | (___  \\ \\_/ /  \\ \\_/ / 
   | | | |\\/| |\\___ \\  \\   /    \\   /  
- _| |_| |  | |____) |  | |      | |   
+ _| |_| |  | |____)|   | |      | |   
 |_____|_|  |_|_____/   |_|      |_|                                                     
 `;
 let content = `
-版 本 号：3.4
-更新日期：2022-07-24
+版 本 号：1.3.2.1
+更新日期：2026-02-04
 
 主页:  https://www.imsyy.top
 Github:  https://github.com/imsyy/home

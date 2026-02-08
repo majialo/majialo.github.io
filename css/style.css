@@ -35,6 +35,9 @@ body {
     background-color: #333;
     overflow: hidden;
     font-family: 'HarmonyOS_Regular', sans-serif;
+    --glass-blur: 10px;
+    --glass-blur-soft: 5px;
+    --glass-blur-strong: 20px;
 }
 
 *,
@@ -320,7 +323,7 @@ span.img-text {
 /*简介*/
 .message {
     background: rgb(0 0 0 / 25%);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(var(--glass-blur, 10px));
     /*margin: 0.5rem;*/
     padding: 1rem;
     border-radius: 6px;
@@ -357,6 +360,12 @@ span#change {
     height: 42px;
 }
 
+.social button.link {
+    background: none;
+    border: 0;
+    padding: 0;
+}
+
 .link i {
     font-size: 1.45rem;
     margin: 2px 12px;
@@ -383,7 +392,7 @@ span#change {
 .hitokoto {
     width: 100%;
     background: rgb(0 0 0 / 25%);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(var(--glass-blur, 10px));
     padding: 20px;
     border-radius: 6px;
     height: 165px;
@@ -444,7 +453,7 @@ span#change {
 .music {
     width: 100%;
     background: rgb(0 0 0 / 25%);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(var(--glass-blur, 10px));
     padding: 20px;
     border-radius: 6px;
     height: 165px;
@@ -614,7 +623,7 @@ input[type=range]::-webkit-slider-thumb {
 .time {
     width: 100%;
     background: rgb(0 0 0 / 25%);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(var(--glass-blur, 10px));
     padding: 20px;
     border-radius: 6px;
     text-align: center;
@@ -655,12 +664,25 @@ i.iconfont.icon-link {
 }
 
 /*链接卡片*/
+.link-card-more {
+    height: 100px;
+    width: 100%;
+    border-radius: 6px;
+    background: rgb(0 0 0 / 25%);
+    backdrop-filter: blur(var(--glass-blur, 10px));
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.55rem;
+}
+
 .link-card {
     height: 100px;
     width: 100%;
     border-radius: 6px;
     background: rgb(0 0 0 / 25%);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(var(--glass-blur, 10px));
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -700,7 +722,7 @@ i.iconfont.icon-z_shangpinheji {
     height: 82%;
     right: 4%;
     background: rgb(0 0 0 / 25%);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(var(--glass-blur, 10px));
     top: 7%;
     border-radius: 6px;
     padding: 30px;
@@ -742,7 +764,7 @@ i.iconfont.icon-z_shangpinheji {
     height: 20px;
     align-items: center;
     background: rgb(0 0 0 / 0%) !important;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(var(--glass-blur-soft, 5px));
 }
 
 .progress-bar {
@@ -781,7 +803,7 @@ i.iconfont.icon-z_shangpinheji {
     bottom: 0;
     z-index: 1996;
     background-color: rgba(0, 0, 0, .5);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(var(--glass-blur-strong, 20px));
     animation: fade 0.3s;
 }
 
@@ -1062,7 +1084,7 @@ i.iconfont.icon-times {
 footer {
     text-align: center;
     height: 46px;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(var(--glass-blur, 10px));
     background: rgb(0 0 0 / 25%);
 }
 
@@ -1096,7 +1118,7 @@ footer {
 
 /*弹窗样式*/
 .iziToast {
-    backdrop-filter: blur(10px) !important;
+    backdrop-filter: blur(var(--glass-blur, 10px)) !important;
 }
 
 .iziToast>.iziToast-body .iziToast-title {
