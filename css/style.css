@@ -25,6 +25,13 @@ GitHub：https://github.com/imsyy/home
     src: url('../font/UnidreamLED.ttf') format('truetype');
 }
 
+/* 设置变量统一从根元素继承 */
+:root {
+    --glass-blur: 10px;
+    --glass-blur-soft: 5px;
+    --glass-blur-strong: 20px;
+}
+
 /*全局样式*/
 html,
 body {
@@ -35,9 +42,6 @@ body {
     background-color: #333;
     overflow: hidden;
     font-family: 'HarmonyOS_Regular', sans-serif;
-    --glass-blur: 10px;
-    --glass-blur-soft: 5px;
-    --glass-blur-strong: 20px;
 }
 
 *,
@@ -202,43 +206,13 @@ a:hover {
     z-index: 9999999;
 }
 
-/*背景*/
-.bg-all {
-    z-index: -1;
-    position: absolute;
-    top: calc(0px + 0px);
-    left: 0;
-    width: 100%;
-    height: calc(100% - 0px);
-    transition: .25s;
-}
-
-#bg {
-    transform: scale(1.10);
-    filter: blur(10px);
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: opacity 1s, transform .25s, filter .25s;
-    backface-visibility: hidden;
-}
-
-img.error {
-    display: none;
-}
-
-.cover {
-    opacity: 0;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-image: radial-gradient(rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, .5) 100%), radial-gradient(rgba(0, 0, 0, 0) 33%, rgba(0, 0, 0, .3) 166%);
-    transition: .25s;
+/* 本地默认图在脚本或在线服务不可用时仍可显示 */
+body {
+    background-image: url('../img/background.webp');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
 /*页面样式*/
@@ -323,6 +297,7 @@ span.img-text {
 /*简介*/
 .message {
     background: rgb(0 0 0 / 25%);
+    -webkit-backdrop-filter: blur(var(--glass-blur, 10px));
     backdrop-filter: blur(var(--glass-blur, 10px));
     /*margin: 0.5rem;*/
     padding: 1rem;
@@ -392,6 +367,7 @@ span#change {
 .hitokoto {
     width: 100%;
     background: rgb(0 0 0 / 25%);
+    -webkit-backdrop-filter: blur(var(--glass-blur, 10px));
     backdrop-filter: blur(var(--glass-blur, 10px));
     padding: 20px;
     border-radius: 6px;
@@ -453,6 +429,7 @@ span#change {
 .music {
     width: 100%;
     background: rgb(0 0 0 / 25%);
+    -webkit-backdrop-filter: blur(var(--glass-blur, 10px));
     backdrop-filter: blur(var(--glass-blur, 10px));
     padding: 20px;
     border-radius: 6px;
@@ -623,6 +600,7 @@ input[type=range]::-webkit-slider-thumb {
 .time {
     width: 100%;
     background: rgb(0 0 0 / 25%);
+    -webkit-backdrop-filter: blur(var(--glass-blur, 10px));
     backdrop-filter: blur(var(--glass-blur, 10px));
     padding: 20px;
     border-radius: 6px;
@@ -669,6 +647,7 @@ i.iconfont.icon-link {
     width: 100%;
     border-radius: 6px;
     background: rgb(0 0 0 / 25%);
+    -webkit-backdrop-filter: blur(var(--glass-blur, 10px));
     backdrop-filter: blur(var(--glass-blur, 10px));
     display: flex;
     align-items: center;
@@ -682,6 +661,7 @@ i.iconfont.icon-link {
     width: 100%;
     border-radius: 6px;
     background: rgb(0 0 0 / 25%);
+    -webkit-backdrop-filter: blur(var(--glass-blur, 10px));
     backdrop-filter: blur(var(--glass-blur, 10px));
     display: flex;
     align-items: center;
@@ -722,6 +702,7 @@ i.iconfont.icon-z_shangpinheji {
     height: 82%;
     right: 4%;
     background: rgb(0 0 0 / 25%);
+    -webkit-backdrop-filter: blur(var(--glass-blur, 10px));
     backdrop-filter: blur(var(--glass-blur, 10px));
     top: 7%;
     border-radius: 6px;
@@ -764,6 +745,7 @@ i.iconfont.icon-z_shangpinheji {
     height: 20px;
     align-items: center;
     background: rgb(0 0 0 / 0%) !important;
+    -webkit-backdrop-filter: blur(var(--glass-blur-soft, 5px));
     backdrop-filter: blur(var(--glass-blur-soft, 5px));
 }
 
@@ -803,6 +785,7 @@ i.iconfont.icon-z_shangpinheji {
     bottom: 0;
     z-index: 1996;
     background-color: rgba(0, 0, 0, .5);
+    -webkit-backdrop-filter: blur(var(--glass-blur-strong, 20px));
     backdrop-filter: blur(var(--glass-blur-strong, 20px));
     animation: fade 0.3s;
 }
@@ -1084,6 +1067,7 @@ i.iconfont.icon-times {
 footer {
     text-align: center;
     height: 46px;
+    -webkit-backdrop-filter: blur(var(--glass-blur, 10px));
     backdrop-filter: blur(var(--glass-blur, 10px));
     background: rgb(0 0 0 / 25%);
 }
@@ -1118,6 +1102,7 @@ footer {
 
 /*弹窗样式*/
 .iziToast {
+    -webkit-backdrop-filter: blur(var(--glass-blur, 10px)) !important;
     backdrop-filter: blur(var(--glass-blur, 10px)) !important;
 }
 
@@ -1167,4 +1152,36 @@ footer {
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: #eeeeee;
+}
+
+/* 设置入口：模糊档位在手机上也可直接看到 */
+.social:hover,
+.social:focus-within {
+    background: rgb(0 0 0 / 25%);
+    border-radius: 6px;
+    -webkit-backdrop-filter: blur(var(--glass-blur-soft));
+    backdrop-filter: blur(var(--glass-blur-soft));
+}
+
+.social:hover #link-text,
+.social:focus-within #link-text {
+    display: block;
+}
+
+.social button.link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 42px;
+}
+
+.setting-value {
+    font-size: 0.8rem;
+    min-width: 1.6em;
+    margin-right: 8px;
+}
+
+.wallpaper-status {
+    margin: 12px 0 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
 }

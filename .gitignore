@@ -1,0 +1,25 @@
+# Local editor / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary and generated files
+*.log
+*.tmp
+*.bak
+__pycache__/
+*.py[cod]
+node_modules/
+.venv/
+venv/
+.vercel/
+
+# Local environment values
+.env
+.env.*
+!.env.example
+
+# Local browser verification files
+.preview-test/
